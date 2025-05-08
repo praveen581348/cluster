@@ -1,0 +1,106 @@
+# kind-harbor-cluster.yaml
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: demo
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      - containerPort: 30094  # Harbor UI (maps to 8090 inside pod)
+        hostPort: 30094
+        protocol: TCP
+      - containerPort: 30091  # Registry (maps to 5000 inside pod)
+        hostPort: 30091
+        protocol: TCP
+      - containerPort: 30092  # Trivy (maps to 8090 inside pod)
+        hostPort: 30092
+        protocol: TCP
+      - containerPort: 30093  # harbor Jobservice (optional)
+        hostPort: 30093
+        protocol: TCP
+      - containerPort: 30095  # ingress
+        hostPort: 30095
+        protocol: TCP
+      - containerPort: 30096  # ingress 8096
+        hostPort: 30096
+        protocol: TCP
+      - containerPort: 30097  # ingress 8097
+        hostPort: 30097
+        protocol: TCP
+      - containerPort: 30084  # receiver 8084
+        hostPort: 30084
+        protocol: TCP
+      - containerPort: 30080  # jenkins  8080
+        hostPort: 30080
+        protocol: TCP
+      - containerPort: 30081  # nexus 8081
+        hostPort: 30081
+        protocol: TCP
+      - containerPort: 30090  # sonarqube 9000
+        hostPort: 30090
+        protocol: TCP
+      - containerPort: 30098  # sender 8098
+        hostPort: 30098
+        protocol: TCP
+      - containerPort: 30099  #wasted
+        protocol: TCP
+      - containerPort: 30100   # jenkins 8100 
+        hostPort: 30100
+        protocol: TCP
+      - containerPort: 30101  #argocd 8080
+        hostPort: 30101
+        protocol: TCP
+      - containerPort: 30102  
+        hostPort: 30102
+        protocol: TCP
+      - containerPort: 30103  
+        hostPort: 30103
+        protocol: TCP
+      - containerPort: 30104  
+        hostPort: 30104
+        protocol: TCP
+      - containerPort: 30105  
+        hostPort: 30105
+        protocol: TCP
+      - containerPort: 30106  
+        hostPort: 30106
+        protocol: TCP
+      - containerPort: 30107  
+        hostPort: 30107
+        protocol: TCP
+      - containerPort: 30109  #  8109
+        hostPort: 30109
+        protocol: TCP
+      - containerPort: 30110  #  8110
+        hostPort: 30110
+        protocol: TCP
+      - containerPort: 30111  #  8111
+        hostPort: 30111
+        protocol: TCP
+      - containerPort: 30112  #  8112
+        hostPort: 30112
+        protocol: TCP
+      - containerPort: 30113  #  8113
+        hostPort: 30113
+        protocol: TCP
+      - containerPort: 30114  #  8114
+        hostPort: 30114
+        protocol: TCP
+      - containerPort: 30115  #  8115
+        hostPort: 30115
+        protocol: TCP
+      - containerPort: 30116  #  8116
+        hostPort: 30116
+        protocol: TCP
+    extraMounts:
+      - hostPath: /var/run/docker.sock
+        containerPath: /var/run/docker.sock
+
+  - role: worker
+    extraMounts:
+      - hostPath: /var/run/docker.sock
+        containerPath: /var/run/docker.sock
+
+  - role: worker
+    extraMounts:
+      - hostPath: /var/run/docker.sock
+        containerPath: /var/run/docker.sock
