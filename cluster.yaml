@@ -1,4 +1,3 @@
-# kind-harbor-cluster.yaml
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 name: demo
@@ -14,7 +13,7 @@ nodes:
       - containerPort: 30092  # Trivy (maps to 8090 inside pod)
         hostPort: 30092
         protocol: TCP
-      - containerPort: 30093  # harbor Jobservice (optional)
+      - containerPort: 30093  # Harbor Jobservice (optional)
         hostPort: 30093
         protocol: TCP
       - containerPort: 30095  # ingress
@@ -29,71 +28,74 @@ nodes:
       - containerPort: 30084  # receiver 8084
         hostPort: 30084
         protocol: TCP
-      - containerPort: 30080  # jenkins  8080
+      - containerPort: 30080  # Jenkins 8080
         hostPort: 30080
         protocol: TCP
-      - containerPort: 30081  # nexus 8081
+      - containerPort: 30081  # Nexus 8081
         hostPort: 30081
         protocol: TCP
-      - containerPort: 30090  # sonarqube 9000
+      - containerPort: 30090  # SonarQube 9000
         hostPort: 30090
         protocol: TCP
       - containerPort: 30098  # sender 8098
         hostPort: 30098
         protocol: TCP
-      - containerPort: 30099  #wasted
+      - containerPort: 30099  # unused/wasted
+        hostPort: 30099
         protocol: TCP
-      - containerPort: 30100   # jenkins 8100 
+      - containerPort: 30100  # Jenkins agent 8100
         hostPort: 30100
         protocol: TCP
-      - containerPort: 30101  #argocd 8080
+      - containerPort: 30101  # ArgoCD 8080
         hostPort: 30101
         protocol: TCP
-      - containerPort: 30102  
+      - containerPort: 30102
         hostPort: 30102
         protocol: TCP
-      - containerPort: 30103  #dataservicd 8013
+      - containerPort: 30103  # Data Service 8013
         hostPort: 30103
         protocol: TCP
-      - containerPort: 30104  #prometheus 8014
+      - containerPort: 30104  # Prometheus 8014
         hostPort: 30104
         protocol: TCP
-      - containerPort: 30105  #splunk  Web UI 8015
+      - containerPort: 30105  # Splunk Web UI 8015
         hostPort: 30105
         protocol: TCP
-      - containerPort: 30106  # splunk hec 8016
+      - containerPort: 30106  # Splunk HEC 8016
         hostPort: 30106
         protocol: TCP
-      - containerPort: 30107  
+      - containerPort: 30107
         hostPort: 30107
         protocol: TCP
-      - containerPort: 30109  #  8109
+      - containerPort: 30109  # 8109
         hostPort: 30109
         protocol: TCP
-      - containerPort: 30110  #  8110
+      - containerPort: 30110  # 8110
         hostPort: 30110
         protocol: TCP
-      - containerPort: 30111  #  8111
+      - containerPort: 30111  # 8111
         hostPort: 30111
         protocol: TCP
-      - containerPort: 30112  #  8112
+      - containerPort: 30112  # 8112
         hostPort: 30112
         protocol: TCP
-      - containerPort: 30113  #  8113
+      - containerPort: 30113  # 8113
         hostPort: 30113
         protocol: TCP
-      - containerPort: 30114  #  8114
+      - containerPort: 30114  # 8114
         hostPort: 30114
         protocol: TCP
-      - containerPort: 30115  #  8115
+      - containerPort: 30115  # 8115
         hostPort: 30115
         protocol: TCP
-      - containerPort: 30116  #  8116
+      - containerPort: 30116  # 8116
         hostPort: 30116
         protocol: TCP
     extraMounts:
       - hostPath: /var/run/docker.sock
         containerPath: /var/run/docker.sock
+      - hostPath: /mnt/data/jenkins
+        containerPath: /mnt/data/jenkins
 
   - role: worker
     extraMounts:

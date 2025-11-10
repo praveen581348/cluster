@@ -1,0 +1,111 @@
+# kind-harbor-cluster.yaml
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: demo1
+networking:
+  disableDefaultCNI: false
+  apiServerAddress: "127.0.0.1"
+  apiServerPort: 6443
+
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      - containerPort: 31094  # Harbor UI
+        hostPort: 31094
+        protocol: TCP
+      - containerPort: 31091  # Registry
+        hostPort: 31091
+        protocol: TCP
+      - containerPort: 31092  # Trivy
+        hostPort: 31092
+        protocol: TCP
+      - containerPort: 31093  # Harbor Jobservice
+        hostPort: 31093
+        protocol: TCP
+      - containerPort: 31095  # ingress
+        hostPort: 31095
+        protocol: TCP
+      - containerPort: 31096  # ingress 8096
+        hostPort: 31096
+        protocol: TCP
+      - containerPort: 31097  # ingress 8097
+        hostPort: 31097
+        protocol: TCP
+      - containerPort: 31084  # receiver 8084
+        hostPort: 31084
+        protocol: TCP
+      - containerPort: 31080  # jenkins 8080
+        hostPort: 31080
+        protocol: TCP
+      - containerPort: 31081  # nexus 8081
+        hostPort: 31081
+        protocol: TCP
+      - containerPort: 31090  # sonarqube 9000
+        hostPort: 31090
+        protocol: TCP
+      - containerPort: 31098  # sender 8098
+        hostPort: 31098
+        protocol: TCP
+      - containerPort: 31099  # wasted
+        protocol: TCP
+      - containerPort: 31100  # jenkins 8100
+        hostPort: 31100
+        protocol: TCP
+      - containerPort: 31101  # argocd 8080
+        hostPort: 31101
+        protocol: TCP
+      - containerPort: 31102
+        hostPort: 31102
+        protocol: TCP
+      - containerPort: 31103  # dataservice 8013
+        hostPort: 31103
+        protocol: TCP
+      - containerPort: 31104  # prometheus 8014
+        hostPort: 31104
+        protocol: TCP
+      - containerPort: 31105  # splunk UI 8015
+        hostPort: 31105
+        protocol: TCP
+      - containerPort: 31106  # splunk HEC 8016
+        hostPort: 31106
+        protocol: TCP
+      - containerPort: 31107
+        hostPort: 31107
+        protocol: TCP
+      - containerPort: 31109
+        hostPort: 31109
+        protocol: TCP
+      - containerPort: 31110
+        hostPort: 31110
+        protocol: TCP
+      - containerPort: 31111
+        hostPort: 31111
+        protocol: TCP
+      - containerPort: 31112
+        hostPort: 31112
+        protocol: TCP
+      - containerPort: 31113
+        hostPort: 31113
+        protocol: TCP
+      - containerPort: 31114
+        hostPort: 31114
+        protocol: TCP
+      - containerPort: 31115
+        hostPort: 31115
+        protocol: TCP
+      - containerPort: 31116
+        hostPort: 31116
+        protocol: TCP
+    extraMounts:
+      - hostPath: /var/run/docker.sock
+        containerPath: /var/run/docker.sock
+
+  - role: worker
+    extraMounts:
+      - hostPath: /var/run/docker.sock
+        containerPath: /var/run/docker.sock
+
+  - role: worker
+    extraMounts:
+      - hostPath: /var/run/docker.sock
+        containerPath: /var/run/docker.sock
