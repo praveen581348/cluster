@@ -1,19 +1,20 @@
+# kind-cluster.yaml (Updated with Persistent Jenkins Data)
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 name: demo
 nodes:
   - role: control-plane
     extraPortMappings:
-      - containerPort: 30094  # Harbor UI (maps to 8090 inside pod)
+      - containerPort: 30094  # Harbor UI
         hostPort: 30094
         protocol: TCP
-      - containerPort: 30091  # Registry (maps to 5000 inside pod)
+      - containerPort: 30091  # Registry
         hostPort: 30091
         protocol: TCP
-      - containerPort: 30092  # Trivy (maps to 8090 inside pod)
+      - containerPort: 30092  # Trivy
         hostPort: 30092
         protocol: TCP
-      - containerPort: 30093  # Harbor Jobservice (optional)
+      - containerPort: 30093  # Harbor Jobservice
         hostPort: 30093
         protocol: TCP
       - containerPort: 30095  # ingress
@@ -94,15 +95,22 @@ nodes:
     extraMounts:
       - hostPath: /var/run/docker.sock
         containerPath: /var/run/docker.sock
-      - hostPath: /mnt/data/jenkins
+      # --- UPDATED JENKINS PATH ---
+      - hostPath: /mnt/c/Users/praveen.m/project/proj-20250730T175053Z-1-001/proj/jenkins-data
+        containerPath: /mnt/data/jenkins
+        
+  - role: worker
+    extraMounts:
+      - hostPath: /var/run/docker.sock
+        containerPath: /var/run/docker.sock
+      # --- ADDED JENKINS PATH TO WORKER 1 ---
+      - hostPath: /mnt/c/Users/praveen.m/project/proj-20250730T175053Z-1-001/proj/jenkins-data
         containerPath: /mnt/data/jenkins
 
   - role: worker
     extraMounts:
       - hostPath: /var/run/docker.sock
         containerPath: /var/run/docker.sock
-
-  - role: worker
-    extraMounts:
-      - hostPath: /var/run/docker.sock
-        containerPath: /var/run/docker.sock
+      # --- ADDED JENKINS PATH TO WORKER 2 ---
+      - hostPath: /mnt/c/Users/praveen.m/project/proj-20250730T175053Z-1-001/proj/jenkins-data
+        containerPath: /mnt/data/jenkins
