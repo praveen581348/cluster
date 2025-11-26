@@ -1,0 +1,55 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: platform
+
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      # --- CI/CD Tools ---
+      - containerPort: 30080 # Jenkins
+        hostPort: 30080
+        protocol: TCP
+      - containerPort: 30081 # Nexus
+        hostPort: 30081
+        protocol: TCP
+      - containerPort: 30090 # SonarQube
+        hostPort: 30090
+        protocol: TCP
+      
+      # --- Monitoring ---
+      - containerPort: 30104 # Prometheus
+        hostPort: 30104
+        protocol: TCP
+      - containerPort: 30107 # Grafana
+        hostPort: 30107
+        protocol: TCP
+      - containerPort: 30109 # Reserved (e.g., AlertManager)
+        hostPort: 30109
+        protocol: TCP
+
+    extraMounts:
+      # 1. Docker socket (Required for Jenkins DIND)
+      - hostPath: /var/run/docker.sock
+        containerPath: /var/run/docker.sock
+
+      # 2. SHARED PLATFORM DATA (Holds data for Jenkins, Nexus, Sonar, etc.)
+      #    WSL Path: /home/praveenm/platform-data
+      #    Node Path: /mnt/data
+      - hostPath: /home/praveenm/platform-data
+        containerPath: /mnt/data
+
+
+  - role: worker
+    extraMounts:
+      - hostPath: /var/run/docker.sock
+        containerPath: /var/run/docker.sock
+      - hostPath: /home/praveenm/platform-data
+        containerPath: /mnt/data
+
+
+  - role: worker
+    extraMounts:
+      - hostPath: /var/run/docker.sock
+        containerPath: /var/run/docker.sock
+      - hostPath: /home/praveenm/platform-data
+        containerPath: /mnt/data

@@ -1,0 +1,63 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: dev
+
+nodes:
+  # --- CONTROL PLANE ---
+  - role: control-plane
+    extraPortMappings:
+      # Microservices
+      - containerPort: 30084 # Receiver
+        hostPort: 30084
+        protocol: TCP
+      - containerPort: 30098 # Sender
+        hostPort: 30098
+        protocol: TCP
+      - containerPort: 30103 # DataService
+        hostPort: 30103
+        protocol: TCP
+      
+      # Monitoring & Tools
+      - containerPort: 30110 # Prometheus
+        hostPort: 30110
+        protocol: TCP
+      - containerPort: 30111 # Grafana
+        hostPort: 30111
+        protocol: TCP
+      - containerPort: 30112 # AlertManager
+        hostPort: 30112
+        protocol: TCP
+      - containerPort: 30101 # ArgoCD
+        hostPort: 30101 
+        protocol: TCP
+
+      # RabbitMQ (Added)
+      - containerPort: 30113 # RabbitMQ Management UI
+        hostPort: 30113
+        protocol: TCP
+      - containerPort: 30114 # RabbitMQ AMQP (Messaging Port)
+        hostPort: 30114
+        protocol: TCP
+
+    extraMounts:
+      - hostPath: /var/run/docker.sock
+        containerPath: /var/run/docker.sock
+      # SHARED APP DATA (Databases, Kafka, Microservices logs)
+      - hostPath: /home/praveenm/application_data
+        containerPath: /mnt/app-data
+
+  # --- WORKER NODE 1 ---
+  - role: worker
+    extraMounts:
+      - hostPath: /var/run/docker.sock
+        containerPath: /var/run/docker.sock
+      - hostPath: /home/praveenm/application_data
+        containerPath: /mnt/app-data
+
+  # --- WORKER NODE 2 ---
+  - role: worker
+    extraMounts:
+      - hostPath: /var/run/docker.sock
+        containerPath: /var/run/docker.sock
+      - hostPath: /home/praveenm/application_data
+        containerPath: /mnt/app-data
